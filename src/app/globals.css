@@ -1,0 +1,488 @@
+/* SufiSoul Design System */
+/* Strict 3-color palette: Black (#000000 / #050505), White (#ffffff / #f3f4f6), Emerald Green (#10b981 / #059669) */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+
+:root {
+  --background: #050505;
+  --foreground: #ffffff;
+  
+  --emerald-primary: #10b981;
+  --emerald-dark: #059669;
+  --emerald-light: #34d399;
+  --emerald-glow: rgba(16, 185, 129, 0.15);
+  --emerald-glow-strong: rgba(16, 185, 129, 0.4);
+  
+  --card-bg: #0c0c0c;
+  --card-border: #1a1a1a;
+  --card-border-active: #10b981;
+  
+  --text-muted: #a3a3a3;
+  --text-dim: #737373;
+  
+  --font-ui: 'Inter', sans-serif;
+  --font-poetic: 'Playfair Display', serif;
+  --font-urdu: 'Noto Nastaliq Urdu', serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4 {
+  font-family: var(--font-ui);
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+.poetic-text {
+  font-family: var(--font-poetic);
+  font-size: 1.45rem;
+  line-height: 2.2rem;
+  letter-spacing: 0.01em;
+  font-style: italic;
+  text-align: center;
+}
+
+.urdu-text {
+  font-family: var(--font-urdu);
+  font-size: 1.65rem;
+  line-height: 3.2rem;
+  text-align: center;
+  direction: rtl;
+}
+
+/* Layout container */
+.container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--emerald-primary);
+}
+
+/* Header & Tabs Navigation */
+.sufi-header {
+  border-bottom: 1px solid var(--card-border);
+  position: sticky;
+  top: 0;
+  background: rgba(5, 5, 5, 0.9);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-family: var(--font-poetic);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo span {
+  color: var(--emerald-primary);
+}
+
+.sufi-nav {
+  display: flex;
+  border-top: 1px solid var(--card-border);
+  background: rgba(5, 5, 5, 0.85);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+}
+
+@media (min-width: 769px) {
+  .sufi-nav {
+    position: static;
+    border-top: none;
+    background: transparent;
+    width: auto;
+    backdrop-filter: none;
+  }
+}
+
+.nav-link {
+  flex: 1;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.nav-link svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+.nav-link:hover {
+  color: var(--foreground);
+}
+
+.nav-link.active {
+  color: var(--emerald-primary);
+}
+
+@media (min-width: 769px) {
+  .nav-link {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 4px;
+  }
+  .nav-link.active {
+    background: var(--emerald-glow);
+    border: 1px solid var(--emerald-primary);
+  }
+}
+
+/* Card Component */
+.sufi-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.sufi-card.featured {
+  border-color: var(--emerald-primary);
+  box-shadow: 0 0 15px var(--emerald-glow);
+}
+
+/* Form inputs & controls */
+.sufi-select, .sufi-input, .sufi-textarea {
+  width: 100%;
+  background: #0c0c0c;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  color: var(--foreground);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.sufi-select:focus, .sufi-input:focus, .sufi-textarea:focus {
+  border-color: var(--emerald-primary);
+  box-shadow: 0 0 8px var(--emerald-glow);
+}
+
+.sufi-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* Button UI */
+.sufi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.sufi-btn-primary {
+  background: var(--foreground);
+  color: var(--background);
+  border: 1px solid var(--foreground);
+}
+
+.sufi-btn-primary:hover {
+  background: transparent;
+  color: var(--foreground);
+}
+
+.sufi-btn-emerald {
+  background: var(--emerald-primary);
+  color: #000;
+  border: 1px solid var(--emerald-primary);
+}
+
+.sufi-btn-emerald:hover {
+  background: transparent;
+  color: var(--emerald-primary);
+  box-shadow: 0 0 15px var(--emerald-glow);
+}
+
+.sufi-btn-outline {
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--card-border);
+}
+
+.sufi-btn-outline:hover {
+  border-color: var(--emerald-primary);
+  color: var(--emerald-primary);
+}
+
+/* Badges */
+.sufi-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--card-border);
+}
+
+.sufi-badge-emerald {
+  border-color: var(--emerald-primary);
+  color: var(--emerald-primary);
+  background: var(--emerald-glow);
+}
+
+/* Selection Steps */
+.step-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.option-box {
+  border: 1px solid var(--card-border);
+  padding: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  background: #0a0a0a;
+}
+
+.option-box:hover {
+  border-color: var(--text-muted);
+}
+
+.option-box.active {
+  border-color: var(--emerald-primary);
+  background: var(--emerald-glow);
+  box-shadow: 0 0 10px var(--emerald-glow);
+}
+
+.option-box-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.option-box-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Poetry Weaver Loading Screen */
+.weaving-mandalas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 2px solid transparent;
+  border-top-color: var(--emerald-primary);
+  border-bottom-color: var(--emerald-primary);
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.spinner::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  border: 2px solid transparent;
+  border-left-color: var(--foreground);
+  border-right-color: var(--foreground);
+  border-radius: 50%;
+  animation: spin-reverse 1.2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Card Actions */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--card-border);
+  padding-top: 1rem;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  color: var(--foreground);
+}
+
+.action-btn.active {
+  color: var(--emerald-primary);
+}
+
+/* Modals */
+.sufi-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+}
+
+.sufi-modal {
+  background: var(--card-bg);
+  border: 1px solid var(--emerald-primary);
+  box-shadow: 0 0 25px var(--emerald-glow-strong);
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  padding: 1.75rem;
+  position: relative;
+}
+
+.sufi-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.sufi-modal-close:hover {
+  color: var(--foreground);
+}
+
+/* Feed filters and selectors */
+.feed-filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.filter-chip {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  border: 1px solid var(--card-border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-chip.active {
+  border-color: var(--emerald-primary);
+  background: var(--emerald-glow);
+  color: var(--emerald-primary);
+}
