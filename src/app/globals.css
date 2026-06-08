@@ -209,7 +209,8 @@ button, input, textarea, select {
 .step-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+  padding-top: 0.5rem;
 }
 
 .options-grid {
@@ -263,10 +264,13 @@ button, input, textarea, select {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1.75rem;
   position: relative;
   overflow: hidden;
   transition: border-color var(--duration) var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .sufi-card.featured {
@@ -558,8 +562,25 @@ button, input, textarea, select {
   border-radius: var(--radius);
   max-width: 480px;
   width: 100%;
-  padding: 2rem;
+  padding: 2.5rem 2rem;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.sufi-modal h2 {
+  margin-bottom: 0;
+}
+
+.sufi-modal p {
+  margin-top: -1rem;
+}
+
+.sufi-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .sufi-modal-close {
