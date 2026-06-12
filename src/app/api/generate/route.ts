@@ -92,9 +92,9 @@ const SHAYARI_GENRES: Record<string, string> = {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { mood = 'ishq', genre = 'sher', length = 'short', custom_input = '' } = body;
+    const { mood = 'ishq', genre = 'sher', length = 'short', custom_input = '', takhallus = 'Sufi' } = body;
 
-    const systemPrompt = `You are SufiSoul, an elite master of Urdu Shayari and modern poetic expressions. 
+    const systemPrompt = `You are SufiSoul, an elite master of Urdu Shayari and classical poetic grammar. 
 Your task is to write a highly evocative poem in Roman Urdu based on the user's criteria.
 
 Return strictly a JSON object with this exact structure:
@@ -109,15 +109,28 @@ Poetry Guidelines:
 1. Primary Output: The content_roman must use natural Roman Urdu (e.g. 'Mohabbat', 'Khwab', 'Dard', 'Zindagi', 'Zameen', 'Aasman').
 2. Match the requested Genre:
    - Sher: stand-alone 2-line couplet with rhyming end words (qafia/radif) or balanced rhythm.
-   - Ghazal: 3 to 5 couplets (ash'aar) where the first couplet (matla) rhymes on both lines, and subsequent couplets rhyme on the second line with a consistent refrain (radif) and rhyming word (qafia).
+   - Ghazal: A strict poetic form consisting of autonomous couplets (shers).
+     - Must have a minimum of 5 couplets (10 lines total).
+     - Every single line in the entire ghazal must adhere to the exact same metrical length and rhythm (consistent syllable count and pacing).
+     - The first couplet is the "Matla". BOTH lines of the Matla must end in the exact same rhyming word pattern: [Kaafiya] [Radif].
+     - In all subsequent couplets, only the second line ends in [Kaafiya] [Radif]. The first line of subsequent couplets MUST remain unrhymed (must NOT end with Kaafiya or Radif).
+     - The Radif is a repeating word or phrase concluding the rhyming lines (e.g., 'hai', 'na hua', 'milte hain').
+     - The Kaafiya is the rhyming word/sound pattern immediately preceding the Radif (e.g., if Radif is 'hai', Kaafiyas could be 'sataata', 'banaata', 'rulaata').
+     - The final couplet is the "Maqta". It must naturally weave the poet's pen name (Takhallus) into one of the lines, while maintaining the rhyme and refrain scheme.
+     - Thematic Independence: Each couplet (Sher) must be entirely independent in meaning. There should not be a continuous narrative across couplets; each couplet is an autonomous thought/universe.
    - Nazm: a narrative or thematic poem of 4-8 lines with custom/flexible rhyming.
    - Free Verse: modern poetry with natural breathing cadences and emotional depth, bypassing strict meters but holding deep rhythm.
-   - Rap: punchy, high-rhyme, rhythmic modern lyrics in Roman Urdu, utilizing double-rhymes, street metaphors, and strong rhythm suited for beats.
 3. Incorporate custom words or experiences: if the user provides keywords or a personal experience, embed it deeply and artistically into the poem, making it feel organic and not just thrown in.
 4. Keep the vocabulary rich yet accessible to subcontinent youth. Use classical Urdu imagery (gul, shama, parwana, hijr, mehtaab, saqi) where appropriate.`;
 
     const prompt = `Write a ${SHAYARI_GENRES[genre] || genre} representing a mood of "${mood}".
-The length of the poem should be suited for a ${length} duration (about ${genre === 'sher' ? '2 lines' : '4 to 8 lines'}).
+${genre === 'ghazal' ? `The Ghazal must be structured as follows:
+- Exactly 5 couplets (10 lines total).
+- The poet's Takhallus (pen name) to incorporate in the Maqta (final couplet) is "${takhallus}".
+- Both lines of Couplet 1 (Matla) must end in [Kaafiya] [Radif].
+- For Couplet 2, 3, 4, and 5, the first line must NOT rhyme, and the second line must end in [Kaafiya] [Radif].
+- Every single line must have the exact same syllable count and meter (Bahr).
+- Each couplet must be a self-contained unit of meaning (thematic independence).` : `The length of the poem should be suited for a ${length} duration (about ${genre === 'sher' ? '2 lines' : '4 to 8 lines'}).`}
 ${custom_input ? `Deeply embed the following custom experience/words: "${custom_input}"` : ""}
 
 Ensure the response is valid JSON.`;

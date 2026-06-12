@@ -195,7 +195,13 @@ export default function Home() {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mood: selectedMoods.join(', '), genre: selectedGenre, length: selectedLength, custom_input: customInput }),
+        body: JSON.stringify({ 
+          mood: selectedMoods.join(', '), 
+          genre: selectedGenre, 
+          length: selectedLength, 
+          custom_input: customInput,
+          takhallus: isAnonymous ? 'Gumnaam' : (identity?.takhallus || 'Sufi')
+        }),
       });
       const data = await res.json();
       if (res.ok) { setGeneratedPoem(data); setWizardStep(6); }
