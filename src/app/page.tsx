@@ -65,7 +65,6 @@ const GENRES = [
   { id: 'ghazal',     label: 'Ghazal',     urdu: 'غزل',      desc: 'Rhyming multi-couplet' },
   { id: 'nazm',       label: 'Nazm',       urdu: 'نظم',      desc: 'Continuous themed poem' },
   { id: 'free_verse', label: 'Free Verse', urdu: 'آزاد',     desc: 'Modern, without strict rules' },
-  { id: 'rap',        label: 'Rap Bars',   urdu: 'ریپ',      desc: 'Punchy street poetry' },
 ];
 
 const LOADING_LINES: Record<string, string> = {
@@ -648,7 +647,7 @@ export default function Home() {
 
             {/* genre chips */}
             <div className="feed-filter-bar" style={{ marginBottom: '1.5rem' }}>
-              {['all', 'sher', 'ghazal', 'nazm', 'free_verse', 'rap'].map(g => (
+              {['all', 'sher', 'ghazal', 'nazm', 'free_verse'].map(g => (
                 <button key={g} className={`filter-chip ${feedGenreFilter === g ? 'active' : ''}`}
                   onClick={() => { setFeedGenreFilter(g); fetchFeed(feedMoodFilter, g); }}>
                   {g === 'all' ? 'All Forms' : g.replace('_', ' ').charAt(0).toUpperCase() + g.replace('_', ' ').slice(1)}
@@ -787,7 +786,6 @@ export default function Home() {
                   <select className="sufi-select" style={{ flex: 1 }} value={collabStarterGenre} onChange={e => setCollabStarterGenre(e.target.value)}>
                     <option value="sher">Sher</option>
                     <option value="ghazal">Ghazal</option>
-                    <option value="rap">Rap</option>
                     <option value="free_verse">Free Verse</option>
                   </select>
                   <select className="sufi-select" style={{ flex: 1 }} value={collabStarterMood} onChange={e => setCollabStarterMood(e.target.value)}>
