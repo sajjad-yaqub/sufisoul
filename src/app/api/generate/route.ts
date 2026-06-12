@@ -199,9 +199,9 @@ Ensure the response is valid JSON.`;
       }
       const jsonText = data.content[0].text;
       poetryResult = JSON.parse(jsonText);
-    } else {
       // Fallback Procedural Generator: dynamic template selection injecting custom words
-      const list = FALLBACK_SHAYARI[mood] || FALLBACK_SHAYARI.ishq;
+      const primaryMood = typeof mood === 'string' ? mood.split(',')[0].trim() : 'ishq';
+      const list = FALLBACK_SHAYARI[primaryMood] || FALLBACK_SHAYARI.ishq;
       const base = list[Math.floor(Math.random() * list.length)];
 
       let roman = base.roman;

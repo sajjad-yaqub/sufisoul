@@ -123,7 +123,12 @@ export const db = {
       try {
         let query = supabase.from('poems').select('*').order('created_at', { ascending: false });
         if (filters?.mood && filters.mood !== 'all') {
-          query = query.eq('mood', filters.mood);
+          const moodList = filters.mood.split(',');
+          if (moodList.length > 1) {
+            query = query.in('mood', moodList);
+          } else {
+            query = query.eq('mood', filters.mood);
+          }
         }
         if (filters?.genre && filters.genre !== 'all') {
           query = query.eq('genre', filters.genre);
@@ -139,7 +144,11 @@ export const db = {
     // Local storage fallback
     let poems = getLocalPoems();
     if (filters?.mood && filters.mood !== 'all') {
-      poems = poems.filter(p => p.mood === filters.mood);
+      const moodList = filters.mood.split(',');
+      poems = poems.filter(p => {
+        const poemMoods = p.mood.split(',');
+        return poemMoods.some(pm => moodList.includes(pm));
+      });
     }
     if (filters?.genre && filters.genre !== 'all') {
       poems = poems.filter(p => p.genre === filters.genre);
