@@ -66,6 +66,18 @@ const FALLBACK_SHAYARI: Record<string, { roman: string; nastaliq: string; transl
       nastaliq: "صبحِ نو آئے گی ضرور اس اندھیرے کے بعد\nامید کا دیا جلائے رکھ آنے والا ہے بہار",
       translation: "A new morning will surely arrive after this darkness,\nKeep the lamp of hope burning, spring is about to arrive."
     }
+  ],
+  inquilab: [
+    {
+      roman: "Hum layenge inquilab naye aahang se,\nBadal denge zamane ka dastaor-e-kohan.",
+      nastaliq: "ہم لائیں گے انقلاب نئے آہنگ سے\nبدل دیں گے زمانے کا دستورِ کہن",
+      translation: "We will bring a revolution with a new rhythm,\nWe will change the ancient custom of the times."
+    },
+    {
+      roman: "Zulm ke khilaf jo uthi hai aawaaz humari,\nAb chup na rahegi yeh deewar-e-sitam.",
+      nastaliq: "ظلم کے خلاف جو اٹھی ہے آواز ہماری\nاب چپ نہ رہے گی یہ دیوارِ ستم",
+      translation: "The voice of ours that has risen against oppression,\nThis wall of tyranny will no longer remain silent."
+    }
   ]
 };
 

@@ -58,6 +58,7 @@ const MOODS = [
   { id: 'falsafa', label: 'Falsafa', urdu: 'فلسفہ',  desc: 'Reflective philosophy' },
   { id: 'sufi',    label: 'Sufi',    urdu: 'صوفی',   desc: 'Mysticism & divinity' },
   { id: 'umeed',   label: 'Umeed',   urdu: 'امید',   desc: 'Hope & renewal' },
+  { id: 'inquilab', label: 'Inquilab', urdu: 'انقلاب', desc: 'Rebellion & resistance' },
 ];
 
 const GENRES = [
@@ -73,6 +74,7 @@ const LOADING_LINES: Record<string, string> = {
   falsafa: 'Pondering the architecture of life…',
   sufi:    'Communing with the divine whispers…',
   umeed:   'Stoking the sparks of a new dawn…',
+  inquilab: 'Stirring the spirit of rebellion…',
 };
 
 /* ─────────────────────────────────────────────────────────
@@ -637,7 +639,7 @@ export default function Home() {
 
             {/* mood chips */}
             <div className="feed-filter-bar">
-              {['all', 'ishq', 'gham', 'falsafa', 'sufi', 'umeed'].map(m => (
+              {['all', 'ishq', 'gham', 'falsafa', 'sufi', 'umeed', 'inquilab'].map(m => (
                 <button key={m} className={`filter-chip ${feedMoodFilter === m ? 'active' : ''}`}
                   onClick={() => { setFeedMoodFilter(m); fetchFeed(m, feedGenreFilter); }}>
                   {m === 'all' ? 'All Moods' : m.charAt(0).toUpperCase() + m.slice(1)}
