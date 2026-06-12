@@ -631,16 +631,9 @@ export default function Home() {
         ════════════════════════════════ */}
         {activeTab === 'circle' && (
           <div className="animate-fade-in">
-            <div style={{ textAlign: 'center', padding: '2rem 0 1rem' }}>
+            <div style={{ textAlign: 'center', padding: '2rem 0 2rem' }}>
               <h1 style={{ fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>The Circle</h1>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Echoes shared by the subcontinent tribe.</p>
-              <button
-                className="sufi-btn sufi-btn-emerald"
-                style={{ maxWidth: '240px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', fontSize: '0.9rem' }}
-                onClick={() => goTab('weave')}
-              >
-                <IconFeather /> Weave Poetry
-              </button>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Echoes shared by the subcontinent tribe.</p>
             </div>
 
             {/* mood chips */}
