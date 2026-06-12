@@ -104,6 +104,12 @@ export default function Home() {
   const [allowCollab, setAllowCollab] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
 
+  // Edit Creation State
+  const [isEditingPoem, setIsEditingPoem] = useState(false);
+  const [editedRoman, setEditedRoman] = useState('');
+  const [editedNastaliq, setEditedNastaliq] = useState('');
+  const [editedTranslation, setEditedTranslation] = useState('');
+
   // Feed
   const [feedPoems, setFeedPoems] = useState<Poem[]>([]);
   const [feedMoodFilter, setFeedMoodFilter] = useState('all');
@@ -204,7 +210,14 @@ export default function Home() {
         }),
       });
       const data = await res.json();
-      if (res.ok) { setGeneratedPoem(data); setWizardStep(6); }
+      if (res.ok) { 
+        setGeneratedPoem(data); 
+        setEditedRoman(data.content_roman || '');
+        setEditedNastaliq(data.content_nastaliq || '');
+        setEditedTranslation(data.english_translation || '');
+        setIsEditingPoem(false);
+        setWizardStep(6); 
+      }
       else { alert(data.error || 'Failed.'); setWizardStep(4); }
     } catch { alert('Network error.'); setWizardStep(4); }
     finally { setIsWeaving(false); }
@@ -218,11 +231,11 @@ export default function Home() {
         device_uuid: identity.device_uuid,
         takhallus: isAnonymous ? 'Gumnaam' : identity.takhallus,
         mood: selectedMoods.join(','), genre: selectedGenre,
-        content_roman: generatedPoem.content_roman,
-        content_nastaliq: generatedPoem.content_nastaliq,
+        content_roman: editedRoman,
+        content_nastaliq: editedNastaliq || undefined,
         is_anonymous: isAnonymous, collab_open: allowCollab,
       });
-      setGeneratedPoem(null); setCustomInput(''); setWizardStep(hasSetInitialMood ? 2 : 1);
+      setGeneratedPoem(null); setCustomInput(''); setIsEditingPoem(false); setWizardStep(hasSetInitialMood ? 2 : 1);
       fetchFeed(); fetchCollabFeed(); setActiveTab('circle');
     } catch { alert('Failed to publish.'); }
     finally { setIsPublishing(false); }
@@ -573,27 +586,63 @@ export default function Home() {
                     background: 'radial-gradient(circle at center, rgba(16,185,129,0.06) 0%, transparent 70%)',
                   }} />
 
-                  <div className="poetic-text" style={{ fontSize: '1.4rem', lineHeight: 2.1, marginBottom: '1rem', whiteSpace: 'pre-line' }}>
-                    {generatedPoem.content_roman}
-                  </div>
+                  {isEditingPoem ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1rem' }}>
+                      <div>
+                        <label className="sufi-label" style={{ fontSize: '0.75rem', marginBottom: '0.25rem', display: 'block' }}>Roman Urdu</label>
+                        <textarea
+                          className="sufi-textarea"
+                          style={{ fontSize: '1.15rem', fontFamily: 'var(--font-serif)', height: '140px', width: '100%', resize: 'none' }}
+                          value={editedRoman}
+                          onChange={e => setEditedRoman(e.target.value)}
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="sufi-label" style={{ fontSize: '0.75rem', marginBottom: '0.25rem', display: 'block' }}>Nastaliq (Urdu Script)</label>
+                        <textarea
+                          className="sufi-textarea"
+                          style={{ fontSize: '1.15rem', fontFamily: 'var(--font-urdu)', height: '100px', width: '100%', resize: 'none', textAlign: 'right' }}
+                          value={editedNastaliq}
+                          onChange={e => setEditedNastaliq(e.target.value)}
+                        />
+                      </div>
 
-                  {generatedPoem.content_nastaliq && (
-                    <div className="urdu-text" style={{
-                      color: 'var(--emerald)', borderTop: '1px dashed #1a1a1a',
-                      padding: '1.5rem 0 0.5rem',
-                    }}>
-                      {generatedPoem.content_nastaliq}
+                      <div>
+                        <label className="sufi-label" style={{ fontSize: '0.75rem', marginBottom: '0.25rem', display: 'block' }}>English Translation</label>
+                        <textarea
+                          className="sufi-textarea"
+                          style={{ fontSize: '0.85rem', height: '80px', width: '100%', resize: 'none' }}
+                          value={editedTranslation}
+                          onChange={e => setEditedTranslation(e.target.value)}
+                        />
+                      </div>
                     </div>
-                  )}
+                  ) : (
+                    <>
+                      <div className="poetic-text" style={{ fontSize: '1.4rem', lineHeight: 2.1, marginBottom: '1rem', whiteSpace: 'pre-line' }}>
+                        {editedRoman}
+                      </div>
 
-                  {generatedPoem.english_translation && (
-                    <div style={{
-                      textAlign: 'center', fontStyle: 'italic', fontSize: '0.85rem',
-                      color: 'var(--text-dim)', borderTop: '1px solid #121212',
-                      paddingTop: '1.25rem', marginTop: '0.5rem',
-                    }}>
-                      &ldquo;{generatedPoem.english_translation}&rdquo;
-                    </div>
+                      {editedNastaliq && (
+                        <div className="urdu-text" style={{
+                          color: 'var(--emerald)', borderTop: '1px dashed #1a1a1a',
+                          padding: '1.5rem 0 0.5rem',
+                        }}>
+                          {editedNastaliq}
+                        </div>
+                      )}
+
+                      {editedTranslation && (
+                        <div style={{
+                          textAlign: 'center', fontStyle: 'italic', fontSize: '0.85rem',
+                          color: 'var(--text-dim)', borderTop: '1px solid #121212',
+                          paddingTop: '1.25rem', marginTop: '0.5rem',
+                        }}>
+                          &ldquo;{editedTranslation}&rdquo;
+                        </div>
+                      )}
+                    </>
                   )}
 
                   {generatedPoem.meter_note && (
@@ -618,8 +667,18 @@ export default function Home() {
                         Open for collaboration
                       </label>
                     </div>
+                    
+                    <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                      <button className="sufi-btn sufi-btn-outline" style={{ flex: 1, padding: '0.6rem', fontSize: '0.85rem' }} onClick={() => setIsEditingPoem(!isEditingPoem)}>
+                        {isEditingPoem ? 'Save Changes' : '✏️ Edit Verses'}
+                      </button>
+                      <button className="sufi-btn sufi-btn-outline" style={{ flex: 1, padding: '0.6rem', fontSize: '0.85rem' }} onClick={handleWeavePoetry} disabled={isWeaving}>
+                        {isWeaving ? 'Weaving...' : '🔄 Recreate'}
+                      </button>
+                    </div>
+
                     <div style={{ display: 'flex', gap: '0.75rem' }}>
-                      <button className="sufi-btn sufi-btn-outline" style={{ flex: 1 }} onClick={() => setWizardStep(1)}>
+                      <button className="sufi-btn sufi-btn-outline" style={{ flex: 1 }} onClick={() => setWizardStep(hasSetInitialMood ? 2 : 1)}>
                         Discard
                       </button>
                       <button className="sufi-btn sufi-btn-emerald" style={{ flex: 2 }} onClick={handlePublishPoetry} disabled={isPublishing}>
